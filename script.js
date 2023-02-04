@@ -1,4 +1,5 @@
 const player = (name) => {
+    let symbol = "";
   let myTurn = false;
   let playerName = name;
   let playerSelections = [
@@ -9,6 +10,9 @@ const player = (name) => {
 
   const setName = (name) => (playerName = name);
   const getName = () => name;
+  const setSymbol = (appliedSymbol) => {
+    symbol = appliedSymbol;
+  }
 
   const getSelections = () => playerSelections;
   const addSelection = (value, index) => {
@@ -32,7 +36,7 @@ const player = (name) => {
     }
   };
 
-  return { setName, getSelections, setTurn, addSelection, getTurn, getName };
+  return { setName, getSelections, setTurn, addSelection, getTurn, getName, setSymbol };
 };
 const gameBoard = (() => {
   //gameboard module
@@ -54,20 +58,22 @@ const gameBoard = (() => {
   }
   const getClickedZone = () => {
     let id = null;
-    selectionZones.addEventListener("mousedown", (e) => {
+    for (let i = 0; i < selectionZones.length; i++) {
+      selectionZones[i].addEventListener("click", (e) => {
+        if (e.target.textContent === "") {
+          id = e.target.id;
+          console.log(id);
+        }
+      });
+    }
+    return id;
+  };
+  const removeClickedZone = (indexToRemove) => {
+    selectionZones[indexToRemove].removeEventListener("click", (e) => {
       if (e.target.textContent === "") {
         id = e.target.id;
       }
     });
-    selectionZones.addEventListener("mouseup", () => {
-      selectionZones.removeEventListener("mouseDown", (e) => {
-        if (e.target.textContent === "") {
-          id = e.target.id;
-        }
-      });
-    });
-
-    return id;
   };
 
   const changeGameState = (currentState) => {
@@ -75,7 +81,7 @@ const gameBoard = (() => {
     renderBoard();
   };
 
-  return { changeGameState, getClickedZone };
+  return { changeGameState, getClickedZone, removeClickedZone };
 })();
 
 const gameFlow = (() => {
@@ -84,10 +90,23 @@ const gameFlow = (() => {
     ["", "", ""],
     ["", "", ""],
   ];
-  const runRound = (player1, player2) => {
-    gameBoard.changeGameState(defaultState);
+  function setDefault(player1, player2) {
     player1.setTurn(true);
     player2.setTurn(false);
+  }
+  function playTurn(player1, player2) {
+    if (player1.getTurn() === true) {
+        let id = gameBoard.getClickedZone();
+        player1.addSelection
+    }
+  }
+  const runRound = (player1, player2) => {
+    gameBoard.changeGameState(defaultState);
+    setDefault(player1, player2);
+
+    if (player1.getTurn() === true) {
+        player1.addSelection
+    }
   };
   const createGame = (() => {
     const playerOne = player();
