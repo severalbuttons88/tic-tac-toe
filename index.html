@@ -15,7 +15,9 @@
     </header>
   </body>
   <main>
+
     <div class="game-flex">
+        
       <div class="game-grid">
         <div class="selection" id="0" data-symbol=""></div>
         <div class="selection" id="1" data-symbol=""></div>
@@ -33,14 +35,26 @@
           <button id="reset">Reset Board</button>
         </div>
         <div class="win-counters">
-            <div class="win-flex">
-            <div>Player One Has Won: </div>
-          <div class="player-one-win">0</div>
+          <div class="win-flex">
+            <div class="player-one-title">Player One Has Won:</div>
+            <div class="player-one-win">0</div>
+            <div>Games</div>
+          </div>
+          <div class="win-flex">
+            <div class="player-two-title">Player Two Has Won:</div>
+            <div class="player-two-win">0</div>
+            <div>Games</div>
+          </div>
         </div>
-        <div class="win-flex">
-          <div>Player Two Has Won: </div>
-          <div class="player-two-win">0</div>
+      </div>
+      <div class="input-flex">
+        <div class="name-inputs">
+          <label for="player-one-name">Enter Player One's Name: </label>
+          <input type="text" name="player-one" id="player-one-name" />
         </div>
+        <div class="name-inputs">
+          <label for="player-two-name">Enter Player Two's Name:</label>
+          <input type="text" name="player-two" id="player-two-name" />
         </div>
       </div>
     </div>

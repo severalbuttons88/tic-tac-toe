@@ -1,17 +1,25 @@
 const playerOneWinCount = document.querySelector(".player-one-win");
 const playerTwoWinCount = document.querySelector(".player-two-win");
-const player = (name) => {
+const playerOneNameDiv = document.querySelector("#player-one-name");
+const playerTwoNameDiv = document.querySelector("#player-two-name");
+const playerOneTitle = document.querySelector(".player-one-title");
+const playerTwoTitle = document.querySelector(".player-two-title");
+
+const player = () => {
   let selectedId = "";
   let totalWon = 0;
   let symbol = "";
   let myTurn = false;
-  let playerName = name;
+  let name = "";
   let playerSelections = [
     ["", "", ""],
     ["", "", ""],
     ["", "", ""],
   ];
+  const setName = (nameValue) => {
+    name = nameValue;
 
+  }
   const wonRound = () => {
     totalWon += 1;
   };
@@ -21,7 +29,6 @@ const player = (name) => {
   };
   const getRounds = () => totalWon;
 
-  const setName = (name) => (playerName = name);
   const getName = () => name;
   const setSymbol = (appliedSymbol) => {
     symbol = appliedSymbol;
@@ -106,7 +113,6 @@ const gameBoard = (() => {
   };
   renderBoard();
   const defaultBoard = () => {
-    console.log(gameState);
     gameState = [
       ["", "", ""],
       ["", "", ""],
@@ -301,6 +307,8 @@ const gameBoard = (() => {
   };
 })();
 const gameFlow = (() => {
+    let playerOneName = playerOneNameDiv.value;
+    let playerTwoName = playerTwoNameDiv.value;
     let gameStarted = false;
     const playerOne = player();
     const playerTwo = player();
@@ -314,10 +322,15 @@ const gameFlow = (() => {
   const updateScore = () => {
     playerOneWinCount.textContent = `${playerOne.getTotalWins()}`;
     playerTwoWinCount.textContent = `${playerTwo.getTotalWins()}`;
+    
   }
   function startGameButton() {
     startButton.addEventListener("click", () => {
       setDefault(playerOne, playerTwo);
+      playerOne.setName(playerOneName);
+      playerTwo.setName(playerTwoName);
+      playerOneTitle.textContent = `${playerOne.getName()} Has Won: `;
+      playerTwoTitle.textContent = `${playerTwo.getName()} Has Won: `;
       gameStarted = false;
       createRound(playerOne, playerTwo);
       updateScore();
@@ -332,6 +345,12 @@ const gameFlow = (() => {
 
   }
   function setDefault(player1, player2) {
+    playerOneName = playerOneNameDiv.value;
+    playerTwoName = playerTwoNameDiv.value;
+    playerOne.setName(playerOneName);
+    playerTwo.setName(playerTwoName);
+    playerOneTitle.textContent = `${playerOne.getName()} Has Won: `;
+    playerTwoTitle.textContent = `${playerTwo.getName()} Has Won: `;
     player1.setTurn(true);
     player2.setTurn(false);
     player1.setSymbol("x");

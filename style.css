@@ -61,9 +61,22 @@ header {
   margin-right: 10px;
 }
 .win-flex {
+  text-align: center;
   border: 1px solid black;
   display:flex;
   flex-direction: column;
   gap: 10px;
   padding: 5px;
+  min-width: 200px;
+}
+.input-flex {
+  display:flex;
+  margin-top: 50px;
+  gap: 20px;
+}
+.name-inputs {
+  display:flex;
+  flex-direction: column;
+  gap: 10px;
+  text-align: center;
 }
