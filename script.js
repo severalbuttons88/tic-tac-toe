@@ -320,11 +320,14 @@ const gameFlow = (() => {
       setDefault(playerOne, playerTwo);
       gameStarted = false;
       createRound(playerOne, playerTwo);
+      updateScore();
+
     });
   }
   function resetGameButton() {
     resetButton.addEventListener("click", () => {
         setDefault(playerOne, playerTwo);
+        updateScore();
     })
 
   }
