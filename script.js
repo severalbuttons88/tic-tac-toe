@@ -78,6 +78,7 @@ const gameBoard = (() => {
     ["", "", ""],
     ["", "", ""],
   ];
+  let hasWon = false;
   const changeDiv = (player, value) => {
     if ((player = 1)) {
       playerOneDiv.setAttribute("id", `${value}`);
@@ -93,6 +94,10 @@ const gameBoard = (() => {
       selectedCell.textContent = `${cell}`;
     });
   }
+  let getWinState = () => hasWon;
+  let resetWinState = () => {
+    hasWon = false;
+  };
   renderBoard();
   const defaultBoard = () => {
     gameState = [
@@ -101,6 +106,83 @@ const gameBoard = (() => {
       ["", "", ""],
     ];
   };
+  function checkForWin(player, symbol, selection) {
+    compareSelect(symbol, player, selection);
+
+    function compareSelect(symbol, playerObj, selection) {
+      let player = selection;
+      if (
+        (player[0][0] === `${symbol}`) &
+        (player[0][1] === `${symbol}`) &
+        (player[0][2] === `${symbol}`)
+      ) {
+        playerObj.wonRound();
+        hasWon = true;
+        console.log("win");
+      } else if (
+        (player[1][0] === `${symbol}`) &
+        (player[1][1] === `${symbol}`) &
+        (player[1][2] === `${symbol}`)
+      ) {
+        playerObj.wonRound();
+        hasWon = true;
+        console.log("win");
+      } else if (
+        (player[2][0] === `${symbol}`) &
+        (player[2][1] === `${symbol}`) &
+        (player[2][2] === `${symbol}`)
+      ) {
+        playerObj.wonRound();
+        hasWon = true;
+        console.log("win");
+      } else if (
+        (player[0][0] === `${symbol}`) &
+        (player[1][0] === `${symbol}`) &
+        (player[2][0] === `${symbol}`)
+      ) {
+        playerObj.wonRound();
+        hasWon = true;
+        console.log("win");
+      } else if (
+        (player[0][1] === `${symbol}`) &
+        (player[1][1] === `${symbol}`) &
+        (player[2][1] === `${symbol}`)
+      ) {
+        playerObj.wonRound();
+        hasWon = true;
+        console.log("win");
+      } else if (
+        (player[0][2] === `${symbol}`) &
+        (player[1][2] === `${symbol}`) &
+        (player[2][2] === `${symbol}`)
+      ) {
+        playerObj.wonRound();
+        hasWon = true;
+        console.log("win");
+      } else if (
+        (player[0][0] === `${symbol}`) &
+        (player[1][1] === `${symbol}`) &
+        (player[2][2] === `${symbol}`)
+      ) {
+        playerObj.wonRound();
+        hasWon = true;
+        console.log("win");
+      } else if (
+        (player[2][0] === `${symbol}`) &
+        (player[1][1] === `${symbol}`) &
+        (player[0][2] === `${symbol}`)
+      ) {
+        playerObj.wonRound();
+        hasWon = true;
+        console.log("win");
+      }
+    }
+  }
+  const exportWin = (playerObj, symbol) => {
+    checkForWin(playerObj, symbol);
+  };
+  const exportState = () => gameState;
+
   function changeGameState(playerInput, symbol) {
     let combinedArray = [].concat(...gameState);
     combinedArray.map((cell, index, array) => {
@@ -114,7 +196,6 @@ const gameBoard = (() => {
     while (combinedArray.length)
       separatedArray.push(combinedArray.splice(0, 3));
     gameState = separatedArray;
-    console.log(gameState);
     renderBoard();
   }
   const getRound = () => currentRound;
@@ -123,19 +204,22 @@ const gameBoard = (() => {
   };
   const getClickedZone = (player1, player2) => {
     for (let i = 0; i < selectionZones.length; i++) {
-      selectionZones[i].addEventListener("click", (e) => {
+      selectionZones[i].addEventListener("mousedown", (e) => {
         if (e.target.textContent === "") {
           let id = e.target.id;
           if (player1.getTurn() === true) {
             player1.addSelectedId(id);
             changeGameState(player1.getSelectedId(), player1.getSymbol());
             renderBoard();
+            checkForWin(player1, player1.getSymbol(), gameState);
+            console.log(gameState);
             player2.setTurn(true);
             player1.setTurn(false);
           } else if (player2.getTurn() === true) {
             player2.addSelectedId(id);
             changeGameState(player2.getSelectedId(), player2.getSymbol());
             renderBoard();
+            checkForWin(player2, player2.getSymbol(), gameState);
             player1.setTurn(true);
             player2.setTurn(false);
           }
@@ -149,10 +233,26 @@ const gameBoard = (() => {
   const getLastId = () => lastUsedID;
 
   const removeClickedZone = (indexToRemove) => {
-    selectionZones[indexToRemove].removeEventListener("click", (e) => {
+    selectionZones[indexToRemove].removeEventListener("mousedown", (e) => {
       if (e.target.textContent === "") {
-        let id = e.target.id;
-        playTurn(player1, player2, id);
+        if (e.target.textContent === "") {
+          let id = e.target.id;
+          if (player1.getTurn() === true) {
+            player1.addSelectedId(id);
+            changeGameState(player1.getSelectedId(), player1.getSymbol());
+            renderBoard();
+            checkForWin(player1, player1.getSymbol());
+            player2.setTurn(true);
+            player1.setTurn(false);
+          } else if (player2.getTurn() === true) {
+            player2.addSelectedId(id);
+            changeGameState(player2.getSelectedId(), player2.getSymbol());
+            renderBoard();
+            checkForWin(player2, player2.getSymbol());
+            player1.setTurn(true);
+            player2.setTurn(false);
+          }
+        }
       }
     });
   };
@@ -167,16 +267,20 @@ const gameBoard = (() => {
     defaultBoard,
     getLastId,
     runState,
+    exportWin,
+    exportState,
+    getWinState,
+    resetWinState,
   };
 })();
-
 const gameFlow = (() => {
+  const startButton = document.querySelector(".start");
   const defaultState = [
     ["", "", ""],
     ["", "", ""],
     ["", "", ""],
   ];
-
+  function startGameButton() {}
   function setDefault(player1, player2) {
     player1.setTurn(true);
     player2.setTurn(false);
@@ -190,13 +294,11 @@ const gameFlow = (() => {
     gameBoard.getClickedZone(player1, player2);
   };
 
-  const createGame = (() => {
+  const createGame = () => {
     const playerOne = player();
     const playerTwo = player();
     runRound(playerOne, playerTwo);
-  })();
-
-  const playerOne = player();
-  const playerTwo = player();
-  return {};
+  };
+  return { createGame };
 })();
+gameFlow.createGame();
